@@ -22,6 +22,9 @@ export const PostsView = () => {
         return (
           <div className="box" key={index}>
             <h2>{content.title}</h2>
+            <p>タグ：
+                {post?.tags?.map((tag, index) => <span key={index} className="box">{tag.label}</span>)}
+            </p>
             <p>過ごした時間：{post.useTimes}</p>
             <p>{post.name}: {content.comment}</p>
             <p>{post.sendAt}</p>

@@ -1,12 +1,25 @@
 import React from 'react'
 import firebase from "src/Firebase"
+import dayjs from "dayjs"
+import Select from "react-select"
+import CreatableSelect from "react-select/creatable"
+
+const options = [
+  { value: 5, label: '5分' },
+  { value: 10, label: '10分' },
+  { value: 15, label: '15分' },
+  { value: 20, label: '20分' },
+]
 
 export const InputNewPost = () => {
   const [title, setTitle] = React.useState("")
   const [comment, setComment] = React.useState("")
-  const [times, setTimes] = React.useState("")
+  const [times, setTimes] = React.useState<{ value: number, label: string }>()
+  const [tag, setTag] = React.useState("")
+  const [tags, setTags] = React.useState<(string | { label: string; value: string; })[]>([{ label: "Enjoy", value: "enjoy" }, { label: "一人で", value: "only" }])
 
   const submit = () => {
+    // console.log(dayjs(new Date()).format('YYYY/MM/DD hh:mi:ss'))
     if (title !== "" && comment !== "") {
       const d = new Date(); // Today
       const DateTimeFormat = 'YYYY/MM/DD hh:mi:ss'; // "2019/10/04 12:34:56" 
@@ -25,10 +38,10 @@ export const InputNewPost = () => {
           title,
           comment,
         },
-        useTimes: times,
+        useTimes: times.value,
         sendAt: time,
         category: "string",
-        tags: [],
+        tags: tags,
       })
       setTitle("")
       setComment("")
@@ -36,6 +49,28 @@ export const InputNewPost = () => {
       alert("タイトルとコメントを入力してください.")
     }
   }
+
+  const createOption = (label: string): { label: string, value: string } => ({
+    label,
+    value: label,
+  })
+
+  const onKeyDown = (event: React.KeyboardEvent<HTMLElement>): void => {
+    if (tag == null) {
+      return
+    }
+
+    switch (event.key) {
+      case "Enter":
+      case "Tab":
+        if (tag) {
+          setTag("")
+          setTags([...tags, createOption(tag)])
+          event.preventDefault()
+        }
+    }
+  }
+
   return (
     <div className="box">
       <div>タイトル</div>
@@ -43,7 +78,19 @@ export const InputNewPost = () => {
       <div>コメント</div>
       <input type="text" value={comment} onChange={(e) => setComment(e.target.value)} />
       <div>過ごした時間</div>
-      <input type="text" value={times} onChange={(e) => setTimes(e.target.value)} />
+      <Select options={options} value={times} onChange={setTimes} />
+      <div>タグ</div>
+      <CreatableSelect
+        inputValue={tag}
+        isClearable
+        isMulti
+        menuIsOpen={false}
+        onChange={setTags}
+        onInputChange={setTag}
+        onKeyDown={onKeyDown}
+        value={tags}
+        placeholder="タグを選択or入力してください！"
+      />
       <button onClick={submit}>送信</button>
     </div>
   )
