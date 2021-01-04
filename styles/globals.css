@@ -21,3 +21,10 @@ a {
 	padding: 8px;
 	margin: 8px;
 }
+
+.center {
+	width: center;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}

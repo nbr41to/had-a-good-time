@@ -23,7 +23,7 @@
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx"
-, "src/components/PostsView/PostsView.tsx"  ],
+, "src/components/PostsView.tsx"  ],
   "exclude": [
     "node_modules"
   ]

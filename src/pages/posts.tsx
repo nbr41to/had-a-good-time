@@ -1,6 +1,6 @@
 import React from "react"
-import { InputNewPost } from "src/components/InputNewPost/InputNewPost"
-import { PostsView } from "src/components/PostsView/PostsView"
+import { InputNewPost } from "src/components/InputNewPost"
+import { PostsView } from "src/components/PostsView"
 
 const posts = () => {
 

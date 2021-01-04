@@ -1,11 +1,14 @@
-import Link from "next/link"
+import { LinkButton } from 'src/components/LinkButton'
+import { ImageCenter } from 'src/components/ImageCenter'
 
 const top = () => {
   return (
     <div>
-      <h1>Had a good time!!</h1>
       <p>あなたの大切な時間をシェアしましょう☀️</p>
-      <Link href="/posts"><a>投稿ページへ</a></Link>
+      <ImageCenter src='/eyecatch.jpg' width={600} height={400} />
+      <div className='center'>
+        <LinkButton path='posts' label='投稿ページへ' bgColor='tomato' />
+      </div>
     </div>
   )
 }
