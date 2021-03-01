@@ -11,12 +11,12 @@ const options = [
   { value: 20, label: '20分' },
 ]
 
-export const InputNewPost = () => {
+export const InputNewPost: React.FC = () => {
   const [title, setTitle] = React.useState("")
   const [comment, setComment] = React.useState("")
   const [times, setTimes] = React.useState<{ value: number, label: string }>()
   const [tag, setTag] = React.useState("")
-  const [tags, setTags] = React.useState<(string | { label: string; value: string; })[]>([{ label: "Enjoy", value: "enjoy" }, { label: "一人で", value: "only" }])
+  const [tags, setTags] = React.useState<({ label: string; value: string; })[]>([{ label: "Enjoy", value: "enjoy" }, { label: "一人で", value: "only" }])
 
   const submit = () => {
     // console.log(dayjs(new Date()).format('YYYY/MM/DD hh:mi:ss'))
@@ -41,7 +41,12 @@ export const InputNewPost = () => {
         useTimes: times.value,
         sendAt: time,
         category: "string",
-        tags: tags,
+        tags,
+      })
+      tags.forEach(tag => {
+        firebase.firestore().collection("tags").doc("tag").update({
+          taglist: firebase.firestore.FieldValue.arrayUnion(tag)
+        })
       })
       setTitle("")
       setComment("")
